@@ -1,0 +1,14 @@
+{% extends 'usuarios/layout.html' %}
+
+{% block body %}
+    {% if mensaje %}
+    <div>{{mensaje}}</div>
+    {% endif %}
+
+    <h1>Bienvenido, {{request.user.first_name}}</h1>
+    <ul>
+        <li>usuario: {{request.user.username}}</li>
+        <li>email: {{request.user.email}}</li>
+    </ul>
+    <a href="{% url 'usuarios:logout' %}">Logout</a>
+{% endblock %} 

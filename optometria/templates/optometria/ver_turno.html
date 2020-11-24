@@ -1,0 +1,47 @@
+{% extends "optometria/new_layout.html" %}
+
+{% block body %}
+{% if data != empty%}
+    <title>Turnos</title>
+    <br>
+    <h2><center>Turnos</center></h2>
+    <br>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-success">
+                    <th scope="col"><center>Id</center></th>
+                    <th scope="col"><center>Fecha</center></th>
+                    <th scope="col"><center>Paciente</center></th>
+                    <th scope="col"><center>Especialista</center></th>
+                    <th scope="col"><center>Cumplió</center></th>
+                    <th scope="col"><center>Acciones</center></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for turno in data %}
+                <tr>
+                    <td><center>{{turno.id}}</center></td>    
+                    <td><center>{{turno.fecha}}</center></td>
+                    <td><center>{{turno.paciente}}</center></td>
+                    <td><center>{{turno.medico}}</center></td>
+                    {% if turno.cumplio %}
+                        <td><center>Si</center></td>
+                    {% else %}
+                        <td><center>No</center></td>
+                    {% endif %}
+                    <td><center>
+                    <a href="#">Editar --- </a>
+                    <a href="{% url 'optometria:eliminar_turno' turno.id%}">Eliminar</a>
+                    </center></td>                                
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}    
+    <h2><center>No hay Turnos</center></h2>
+    <br>
+{% endif %}
+
+{% endblock %}

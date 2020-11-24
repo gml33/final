@@ -1,0 +1,9 @@
+{% extends "optometria/new_layout.html" %}
+
+{% block body %}
+ <h2>Editar Turno</h2>
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Agregar</button>
+    </form>
+{% endblock %}

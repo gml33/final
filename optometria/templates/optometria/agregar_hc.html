@@ -1,0 +1,13 @@
+{% extends "optometria/new_layout.html" %}
+
+{% block body %}
+<h2><center>Nueva Historia Clínica</center></h2>
+    <form method="POST">
+    {% csrf_token %}
+    <div class='form-group'>
+    {{ formulario.as_p }}
+    </div>
+    <center><button type="submit" class="btn btn-success btn-lg">Registrar</button></center>
+    </form>    
+ 
+{% endblock %}

@@ -1,17 +1,13 @@
-def es_medico(user):
-    return user.groups.filter(name='medicos').exists()
-
 '''
-
 ver
 crear
 editar
 eliminar
 
-caso secretaria:
+caso secretario:
     ver turno-
     crear turno-
-    editar turno-
+    editar turno
     eliminar turno-
 
 caso medico:

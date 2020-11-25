@@ -1,11 +1,13 @@
 from django.shortcuts import render
-from django.contrib.auth.models import User, Group
 from .utils import *
 from .models import *
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from .forms import *
 from django.contrib import messages
+from django.conf import settings
+
+User = settings.AUTH_USER_MODEL
 
 
 

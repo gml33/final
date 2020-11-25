@@ -8,7 +8,9 @@ from django.contrib.auth import authenticate, login, logout
 def index(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('usuarios:login'))
-    return render(request, 'usuarios/usuarios.html',{})
+    else:
+        data = request.user.objects.all()
+        return render(request, 'usuarios/usuarios.html',{})
 
 def login_view(request):
     if request.method == "POST":

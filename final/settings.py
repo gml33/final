@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'optometria',
     'usuarios',
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -53,7 +54,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'final.urls'
 
-#AUTH_USER_MODEL = 'optometria.Usuario'
+AUTH_USER_MODEL = 'user.User'
 
 TEMPLATES = [
     {

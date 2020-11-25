@@ -9,7 +9,7 @@ class Hc(models.Model):
     medico = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='Hc_medico')
 
     def __str__(self):
-        return f'{self.Paciente}-{self.fecha}'
+        return f'{self.paciente}-{self.fecha}'
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=32)

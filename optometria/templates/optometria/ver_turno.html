@@ -1,9 +1,8 @@
 {% extends "optometria/new_layout.html" %}
-
 {% block body %}
-{% if data != empty%}
-    <title>Turnos</title>
-    <br>
+<title>Turnos</title>
+<br>
+{% if data %}
     <h2><center>Turnos</center></h2>
     <br>
     <div class="table-responsive">
@@ -31,7 +30,8 @@
                         <td><center>No</center></td>
                     {% endif %}
                     <td><center>
-                    <a href="#">Editar --- </a>
+                    <a href="{% url 'optometria:editar_turno' turno.id%}">Editar</a>
+                    <a> - </a>
                     <a href="{% url 'optometria:eliminar_turno' turno.id%}">Eliminar</a>
                     </center></td>                                
                     </tr>

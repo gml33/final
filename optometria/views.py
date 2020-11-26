@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from .utils import *
 from .models import *
 from django.http import HttpResponseRedirect
@@ -6,6 +6,7 @@ from .forms import *
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.views.generic import TemplateView
 
 
 User = get_user_model()
@@ -17,31 +18,52 @@ def index(request):
     })
 #----------------------------------------------turnos----------------------------------------------
 def ver_turnos(request):
-    data = Turno.objects.all()
+    if len(Turno.objects.all()) > 0:
+        data = Turno.objects.all()
+    else:
+        data = None
     return render(request, 'optometria/ver_turno.html',{
         'grupo': request.user.rol,
         'data': data,
         })
 
-def agregar_turno(request):
-    form = TurnoForm
+def agregar_turno(request):    
     if request.method == 'POST':
-        form = TurnoForm(request.POST or None)
+        form = TurnoForm(request.POST)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.cumplio = False
+            fecha = form.cleaned_data['fecha']
+            paciente = form.cleaned_data['paciente']
+            cumplio = form.cleaned_data['cumplio']
+            medico = form.cleaned_data['medico']
             form.save()
-            messages.success(request, ('El turno fue agregado exitosamente.'))
-            data = Turno.objects.all()
-            return render(request, 'optometria/ver_turno.html',{
-                'grupo': request.user.rol,
-                'data': data,
-            })
-        else:
-            messages.success(request, ('Ocurrió un error, por favor intente nuevamente'))
-            return render(request, 'optometria/agregar_turno.html',{'formulario':form})
+            messages.success(request, ('El turno fue creado exitosamente.'))
+            return HttpResponseRedirect(reverse('optometria:ver_turnos'))
     else:
-        return render(request, 'optometria/agregar_turno.html',{'formulario':form})
+        form = TurnoForm()        
+    return render(request, 'optometria/agregar_turno.html',{
+        'grupo': request.user.rol,
+        'pacientes':User.objects.filter(rol='paciente'),
+        'medicos':User.objects.filter(rol='medicos'),
+        })
+
+def editar_turno(request, id):
+    turno = Turno.objects.get(id=id)
+    if request.user.rol == 'secretario':
+        if request.method == 'GET':
+            form = TurnoForm(instance=turno)
+        else:
+            form = TurnoForm(request.POST, instance= turno)
+            if form.is_valid():
+                form.save()
+                messages.success(request, ('El turno fue editado exitosamente.'))
+                return HttpResponseRedirect(reverse('optometria:ver_turnos'))
+    else:
+        form = TurnoForm()
+    return render(request, 'optometria/editar_turno.html',{
+        'grupo': request.user.rol,
+        'pacientes':User.objects.filter(rol='paciente'),
+        'medicos':User.objects.filter(rol='medicos'),
+        })
 
 
 def eliminar_turno(request, id):

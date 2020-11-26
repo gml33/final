@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import User, Group
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class Hc(models.Model):
     paciente = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="Hc_paciente")
@@ -47,8 +49,8 @@ class Pedido(models.Model):
         return f"Pedido ID: {self.id}, precio: {self.precio}"
 
 
-class Turno(models.Model):
-    fecha = models.DateTimeField(auto_now=False)
+class Turno(models.Model):    
+    fecha = models.DateField(auto_now=False, auto_now_add=False)
     paciente = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="turno_paciente")
     cumplio = models.BooleanField()
     medico = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='turno_medico')

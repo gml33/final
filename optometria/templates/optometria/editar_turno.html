@@ -1,9 +1,33 @@
 {% extends "optometria/new_layout.html" %}
 
 {% block body %}
- <h2>Editar Turno</h2>
-    <form method="POST" class="post-form">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Agregar</button>
-    </form>
+<h2><center>Editar Turno</center></h2>
+    <form method="POST">
+    {% csrf_token %}
+    <div class='form-group'>
+        <label for="paciente">Seleccionar Paciente</label>
+        <select name="paciente" id="">
+        {% for paciente in pacientes %}
+            <option value="{{paciente.id}}">{{paciente}}</option> 
+        {% endfor %}
+        </select>
+    </div>
+    <div class='form-group'>
+        <label for="medico">Seleccionar Medico</label>
+        <select name="medico" id="">
+        {% for medico in medicos %}
+            <option value="{{medico.id}}">{{medico}}</option> 
+        {% endfor %}
+        </select>
+    </div>
+    <div class='form-group'>
+        <label for="fecha">Seleccionar Fecha para el Turno</label>
+        <input type="date" name="fecha" id=""></input>
+    </div>
+    <div class='form-group'>
+        <label for="fecha">Cumplió con el turno</label>
+        <input type="checkbox" name="cumplio" id=""></input>
+    </div>
+    <center><button type="submit" class="btn btn-success btn-lg">Registrar Turno</button></center>
+    </form> 
 {% endblock %}

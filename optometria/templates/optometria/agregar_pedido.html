@@ -1,0 +1,42 @@
+{% extends "optometria/new_layout.html" %}
+
+{% block body %}
+<h2><center>Nuevo Pedido</center></h2>
+    <form method="POST">
+    {% csrf_token %}
+    <div class='form-group'><input type="hidden" name="estado" id="" value="pendiente"></input>
+    <div class='form-group'><input type="hidden" name="precio" id="" value="0"></input>
+    <div class='form-group'>
+        <label for="paciente">Seleccionar Paciente</label>
+        <select name="paciente" id="">
+        {% for paciente in pacientes %}
+            <option value="{{paciente.id}}">{{paciente}}</option> 
+        {% endfor %}
+        </select>
+    </div>
+    <div class='form-group'>
+        <label for="producto">Seleccionar Producto</label>
+        <select name="producto" id="" multiple>
+        {% for producto in productos %}
+            <option value="{{producto.id}}">{{producto.nombre}} -- ${{producto.precio}}</option> 
+        {% endfor %}
+        </select>
+    </div>
+    <div class='form-group'>
+        <label for="tipo_pago">Medio de Pago:</label>
+        <select name="tipo_pago" id="">
+            <option value="efectivo">Efectivo</option>
+            <option value="debito">Tarjeta de Débito</option>
+            <option value="credito">Tarjeta de Crédito</option>
+            <option value="virtual">Billetera Virtual</option>
+        </select>
+    </div>
+    <div class='form-group'>
+        <label for="Fecha">Fecha</label>
+        <input type="date" name="fecha" id=""></input>
+    </div>
+    <center>
+    <button type="reset" class="btn btn-danger btn-lg">Borrar</button>
+    <button type="submit" class="btn btn-success btn-lg">Registrar</button></center>
+    </form> 
+{% endblock %}

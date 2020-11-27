@@ -59,6 +59,10 @@ class Pedido(models.Model):
     paciente = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='Pedido_paciente')
     tipo_de_pago = models.CharField(max_length=10, choices=tipo_pago, default='efectivo')
     estado = models.CharField(max_length=12, choices=estado_pedido, default='pendiente')
-    
-    def precio():
-        pass
+    fecha = models.DateField(auto_now_add=False, auto_now= False, blank=False)
+
+    def precio(self):
+        precio = 0
+        for item in self.items:
+            precio += item.precio
+        return self.precio

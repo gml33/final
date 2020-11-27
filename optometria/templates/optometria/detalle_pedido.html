@@ -1,0 +1,34 @@
+{% extends "optometria/new_layout.html" %}
+{% block body %}
+<title>Detalle del Pedido Id: {{pedido.id}}</title>
+<br>
+<h2><center>fecha de creación: {{pedido.fecha}}</center></h2>
+<br>
+<h2><center>Paciente: {{paciente.nombre}}, {{paciente.apellido}}</center></h2>
+<br>
+<h2><center>Tipo de Pago: {{pedido.tipo_pago}}</center></h2>
+<br>
+<h2><center>Estado: {{pedido.estado}}</center></h2>
+<br>
+<h2><center>Items:</center></h2>
+<br>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-success">
+                    <th scope="col"><center>nombre</center></th>
+                    <th scope="col"><center>precio</center></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in pedido.itemsdata %}
+                <tr>
+                    <td><center>{{item.nombre}}</center></td>    
+                    <td><center>{{item.precio}}</center></td>                                
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

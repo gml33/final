@@ -1,20 +1,25 @@
 from django import forms
-from django.forms import ModelForm, DateField, DateTimeInput
 from .models import *
 
-class TurnoForm(ModelForm):
+class TurnoForm(forms.ModelForm):
     class Meta:
         model = Turno
         fields = '__all__'
 
 
-class HcForm(ModelForm):
+class HcForm(forms.ModelForm):
     class Meta:
         model = Hc
         fields = '__all__'
         
 
-class ProductoForm(ModelForm):
+class ProductoForm(forms.ModelForm):
     class Meta:
         model = Producto
         fields = '__all__'
+
+class PedidoForm(forms.ModelForm):
+    class Meta:
+        model = Pedido
+        fields = '__all__'
+

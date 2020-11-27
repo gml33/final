@@ -230,14 +230,76 @@ def eliminar_producto(request, id):
         })
 #----------------------------Pedidos-----------------------------------------------------
 
-def ver_pedido():
-    pass
+def ver_pedido(request):
+    if len(Pedido.objects.all()) > 0:
+        data = Pedido.objects.all()
+    else:
+        data = None
+    return render(request, 'optometria/ver_pedido.html',{
+        'grupo': request.user.rol,
+        'data': data,
+        })
 
-def agregar_pedido():
-    pass
 
-def editar_pedido():
-    pass
+def agregar_pedido(request):
+    if request.method == 'POST':
+        form = PedidoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, ('Pedido Registrado.'))
+            return HttpResponseRedirect(reverse('optometria:ver_pedido'))
+        else:
+            messages.success(request, ('Pedido no registrado.'))
+            form = PedidoForm()
+    return render(request, 'optometria/agregar_pedido.html',{
+        'grupo': request.user.rol,
+        'pacientes':User.objects.filter(rol='paciente'),
+        'medico':request.user.id,
+        'productos': Producto.objects.all(),
+        })
 
-def eliminar_pedido():
-    pass
+
+def editar_pedido(request, id):
+    pedido = Pedido.objects.get(id=id)
+    if request.user.rol == 'venta':
+        if request.method == 'GET':
+            form = PedidoForm(instance=pedido)
+        else:
+            form = PedidoForm(request.POST, instance=pedido)
+            if form.is_valid():
+                form.save()
+                messages.success(request, ('Se editó el pedido.'))
+                return HttpResponseRedirect(reverse('optometria:ver_pedido'))
+    else:
+        form = PedidoForm()
+    return render(request, 'optometria/editar_pedido.html',{
+        'grupo': request.user.rol,
+        'pedido': Pedido.objects.get(id=id)
+        })
+
+def eliminar_pedido(request, id):
+    data = Pedido.objects.all()
+    pedido = Pedido.objects.get(id=id)
+    if request.user.rol == 'venta':
+        pedido.delete()
+        messages.success(request, ('Se eliminó el pedido.'))
+        return render(request, 'optometria/ver_pedido.html',{
+            'grupo': request.user.rol,
+            'data': data,
+        })
+    else:
+        messages.success(request, ('Ocurrió un error, estamos en la sopa..... :('))
+        return render(request, 'optometria/ver_pedido.html',{
+            'grupo': request.user.rol,
+            'data': data,
+        })
+    return render(request, 'optometria/ver_pedido.html',{
+            'grupo': request.user.rol,
+            'data': data,
+        })
+
+def detalle_pedido(request):
+    return render(request, 'optometria/detalle_pedido.html',{
+        'grupo': request.user.rol,
+        'pedido': Pedido.objects.get(id=id),
+        })

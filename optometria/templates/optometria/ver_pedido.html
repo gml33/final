@@ -1,0 +1,41 @@
+{% extends "optometria/new_layout.html" %}
+{% block body %}
+<title>Pedidos</title>
+<br>
+{% if data %}
+    <h2><center>Pedidos</center></h2>
+    <br>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-success">
+                    <th scope="col"><center>Paciente</center></th>
+                    <th scope="col"><center>Fecha</center></th>
+                    <th scope="col"><center>Estado</center></th>
+                    <th scope="col"><center>Detalle</center></th>
+                    <th scope="col"><center>Acciones</center></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for pedido in data %}
+                <tr>
+                    <td><center>{{pedido.paciente}}</center></td>    
+                    <td><center>{{pedido.fecha}}</center></td>
+                    <td><center>{{pedido.estado}}</center></td>
+                    <td><center><a href="{% url 'optometria:detalle_pedido' pedido.id%}">Ver</a></center></td>                   
+                    <td><center>
+                    <a href="{% url 'optometria:editar_pedido' pedido.id%}">Editar</a>
+                    <a> - </a>
+                    <a href="{% url 'optometria:eliminar_pedido' pedido.id%}">Eliminar</a>
+                    </center></td>                                
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}    
+    <h2><center>No hay Pedidos Registrados</center></h2>
+    <br>
+{% endif %}
+
+{% endblock %}

@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.views.generic import TemplateView
+from datetime import datetime
 
 
 User = get_user_model()
@@ -88,29 +89,54 @@ def eliminar_turno(request, id):
         })
 #--------------------------------------------------------HC--------------------------------------------
 def ver_hc(request):
-    data = Hc.objects.filter(medico_id = request.user.id)
+    if len(Hc.objects.all()) > 0:
+        data = Hc.objects.filter(medico_id = request.user.id)
+    else:
+        data = None
     return render(request, 'optometria/ver_hc.html',{
         'grupo': request.user.rol,
         'data': data,
         })
 
 
-def agregar_hc(request):
-    form = HcForm
+def agregar_hc(request):    
     if request.method == 'POST':
-        form = HcForm(request.POST or None)        
+        form = HcForm(request.POST)
         if form.is_valid():
-            print(request.POST)
+            fecha = form.cleaned_data['fecha']
+            paciente = form.cleaned_data['paciente']
+            detalle = form.cleaned_data['detalle']
+            medico = form.cleaned_data['medico']
             form.save()
-            messages.success(request, ('La Historia Clínica fue agregada exitosamente.'))            
-            data = Hc.objects.filter(medico_id = request.user.id)
-            return render(request, 'optometria/ver_hc.html',{
-                'grupo': request.user.rol,
-                'data': data,
-            })
+            messages.success(request, ('Hc fue creado exitosamente.'))
+            return HttpResponseRedirect(reverse('optometria:ver_hc'))
         else:
-            messages.success(request, ('Ocurrió un error, por favor intente nuevamente'))
-            return render(request, 'optometria/agregar_hc.html',{'formulario':form})
+            form = HcForm()
+    return render(request, 'optometria/agregar_hc.html',{
+        'grupo': request.user.rol,
+        'pacientes':User.objects.filter(rol='paciente'),
+        'medico':request.user.id
+        })
+
+
+def editar_hc(request, id):
+    hc = Hc.objects.get(id=id)
+    if request.user.rol == 'medicos':
+        if request.method == 'GET':
+            form = HcForm(instance=hc)
+        else:
+            form = HcForm(request.POST, instance= hc)
+            if form.is_valid():
+                form.save()
+                messages.success(request, ('La Historia Clínica fue editada exitosamente.'))
+                return HttpResponseRedirect(reverse('optometria:ver_hc'))
     else:
-        return render(request, 'optometria/agregar_hc.html',{'formulario':form})
+        form = HcForm()
+    return render(request, 'optometria/editar_hc.html',{
+        'grupo': request.user.rol,
+        'pacientes':User.objects.filter(rol='paciente'),
+        })
+
+def eliminar_hc():
+    pass
 #-------------------------------------------productos----------------------------------------------

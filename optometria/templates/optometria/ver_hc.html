@@ -2,7 +2,7 @@
 
 {% block body %}
 
-{% if data != empty%}
+{% if data %}
     <title>Historias Clínicas</title>
     <br>
     <h2><center>Historias Clínicas</center></h2>
@@ -25,7 +25,9 @@
                     <td><center>{{hc.paciente}}</center></td>
                     <td><center>{{hc.fecha}}</center></td>
                     <td><center>{{hc.detalle}}</center></td>
-                    <td><center><a href="#">Editar</a>
+                    <td><center><a href="{% url 'optometria:editar_hc' hc.id %}">Editar</a>
+                    <center><a> - </a>
+                    <center><a href="{% url 'optometria:eliminar_hc' hc.id %}">Eliminar</a></td>
                     </center></td>                                
                     </tr>
             {% endfor %}

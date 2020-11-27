@@ -1,13 +1,29 @@
 {% extends "optometria/new_layout.html" %}
 
 {% block body %}
-<h2><center>Nueva Historia Clínica</center></h2>
+<h2><center>Nueva Hc</center></h2>
     <form method="POST">
     {% csrf_token %}
     <div class='form-group'>
-    {{ formulario.as_p }}
+        <label for="paciente">Seleccionar Paciente</label>
+        <select name="paciente" id="">
+        {% for paciente in pacientes %}
+            <option value="{{paciente.id}}">{{paciente}}</option> 
+        {% endfor %}
+        </select>
     </div>
-    <center><button type="submit" class="btn btn-success btn-lg">Registrar</button></center>
-    </form>    
- 
+    <div class='form-goup'>
+        <label for="medico">Medico ID: </label>
+        <input type="text" name="medico" value="{{medico}}" readonly></input>
+    </div>
+    <div class='form-group'>
+        <label for="detalle">Detalle</label>
+        <textarea id="" name="detalle" rows="4" cols="50"></textarea>
+    </div>
+    <div class='form-group'>
+        <label for="Fecha">Fecha</label>
+        <input type="date" name="fecha" id=""></input>
+    </div>    
+    <center><button type="submit" class="btn btn-success btn-lg">Registrar Hc</button></center>
+    </form> 
 {% endblock %}

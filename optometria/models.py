@@ -4,11 +4,17 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+class Turno(models.Model):    
+    fecha = models.DateField(auto_now=False, auto_now_add=False)
+    paciente = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="turno_paciente")
+    cumplio = models.BooleanField()
+    medico = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='turno_medico')
+
 class Hc(models.Model):
-    paciente = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="Hc_paciente")
-    fecha = models.DateTimeField(auto_now=True)
+    fecha = models.DateField(auto_now_add=False, auto_now= False, blank=True)
+    paciente = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="hc_paciente")    
     detalle = models.TextField()
-    medico = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='Hc_medico')
+    medico = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='hc_medico')
 
     def __str__(self):
         return f'{self.paciente}-{self.fecha}'
@@ -47,10 +53,3 @@ class Pedido(models.Model):
 
     def __str__(self):
         return f"Pedido ID: {self.id}, precio: {self.precio}"
-
-
-class Turno(models.Model):    
-    fecha = models.DateField(auto_now=False, auto_now_add=False)
-    paciente = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="turno_paciente")
-    cumplio = models.BooleanField()
-    medico = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='turno_medico')

@@ -125,18 +125,38 @@ def editar_hc(request, id):
         if request.method == 'GET':
             form = HcForm(instance=hc)
         else:
-            form = HcForm(request.POST, instance= hc)
+            form = HcForm(request.POST, instance=hc)
             if form.is_valid():
                 form.save()
-                messages.success(request, ('La Historia Clínica fue editada exitosamente.'))
+                messages.success(request, ('La Historia clínica fue editada con exito, fuck yeahh!!!!!.'))
                 return HttpResponseRedirect(reverse('optometria:ver_hc'))
     else:
         form = HcForm()
     return render(request, 'optometria/editar_hc.html',{
         'grupo': request.user.rol,
         'pacientes':User.objects.filter(rol='paciente'),
+        'medicos':User.objects.filter(rol='medicos'),
         })
 
-def eliminar_hc():
-    pass
+
+def eliminar_hc(request, id):
+    data = Hc.objects.filter(medico_id = request.user.id)
+    hc = Hc.objects.get(id=id)
+    if request.user.rol == 'medicos':
+        hc.delete()
+        messages.success(request, ('Se eliminó la Historia clínica.'))
+        return render(request, 'optometria/ver_hc.html',{
+            'grupo': request.user.rol,
+            'data': data,
+        })
+    else:
+        messages.success(request, ('Ocurrió un error, estamos en la sopa..... :('))
+        return render(request, 'optometria/ver_hc.html',{
+            'grupo': request.user.rol,
+            'data': data,
+        })
+    return render(request, 'optometria/ver_hc.html',{
+            'grupo': request.user.rol,
+            'data': data,
+        })
 #-------------------------------------------productos----------------------------------------------

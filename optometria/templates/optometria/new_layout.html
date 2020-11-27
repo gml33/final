@@ -24,37 +24,34 @@
     <ul class="navbar-nav mr-auto">    
     <!-- aca hay que poner el bloque de if segun rol de usuario-->
 
+
+
+
     {% if grupo == "secretario" %}
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Turnos
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{% url 'optometria:agregar_turno'%}">Crear</a>
-          <a class="dropdown-item" href="{% url 'optometria:ver_turnos'%}">Ver</a>
-        </div>
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url 'optometria:ver_turnos'%}">Ver Turnos</a>
       </li>
-    {% elif grupo == "medicos" %}              
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Historia Clínica
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{% url 'optometria:agregar_hc'%}">Crear</a>
-          <a class="dropdown-item" href="{% url 'optometria:ver_hc'%}">Ver</a>
-        </div>
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url 'optometria:agregar_turno'%}">Crear Turno</a>
+      </li>      
+    {% elif grupo == "medicos" %}
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url 'optometria:ver_hc'%}">Ver Historias Clínicas</a>
       </li>
-    {% elif grupo == "venta" %}              
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url 'optometria:agregar_hc'%}">Crear Historia Clínica</a>
+      </li>      
+    {% elif grupo == "venta" %}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Pedidos
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Crear</a>
-          <a class="dropdown-item" href="#">Editar</a>
+          <a class="dropdown-item" href="{% url 'optometria:agregar_producto' %}">Crear</a>
+          <a class="dropdown-item" href="{% url 'optometria:ver_producto' %}">Ver</a>
         </div>
       </li>
-    {% elif grupo == "taller" %}              
+    {% elif grupo == "taller" %}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Pedidos
@@ -64,7 +61,7 @@
           <a class="dropdown-item" href="#">Editar</a>
         </div>
       </li>
-    {% elif grupo == "gerencia" %}              
+    {% elif grupo == "gerencia" %}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Ver
@@ -90,6 +87,15 @@
           <a class="dropdown-item" href="#">Ventas Totales por Vendedores</a>
         </div>
       </li>
+
+
+
+
+
+
+
+
+      <!--Aca termina el if del rol de usuario-->
       {% endif%}       
     </ul>
     <ul class="nav navbar-nav navbar-right">

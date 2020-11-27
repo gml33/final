@@ -1,0 +1,37 @@
+{% extends "optometria/new_layout.html" %}
+{% block body %}
+<title>Productos</title>
+<br>
+{% if data %}
+    <h2><center>Productos</center></h2>
+    <br>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-success">
+                    <th scope="col"><center>Id</center></th>
+                    <th scope="col"><center>Nombre</center></th>
+                    <th scope="col"><center>Precio</center></th>
+                    <th scope="col"><center>Acciones</center></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for producto in data %}
+                <tr>
+                    <td><center>{{producto.id}}</center></td>    
+                    <td><center>{{producto.nombre}}</center></td>
+                    <td><center>{{producto.precio}}</center></td>
+                    <a href="{% url 'optometria:editar_producto' producto.id%}">Editar</a>
+                    <a> - </a>
+                    <a href="{% url 'optometria:eliminar_producto' producto.id%}">Eliminar</a>
+                    </center></td>                                
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}    
+    <h2><center>No hay productos registrados.</center></h2>
+    <br>
+{% endif %}
+{% endblock %}

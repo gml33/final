@@ -160,3 +160,21 @@ def eliminar_hc(request, id):
             'data': data,
         })
 #-------------------------------------------productos----------------------------------------------
+
+def ver_producto(request):
+    if len(Producto.objects.all()) > 0:
+        data = Producto.objects.filter(medico_id = request.user.id)
+    else:
+        data = None
+    return render(request, 'optometria/ver_producto.html',{
+        'grupo': request.user.rol,
+        'data': data,
+        })
+def agregar_producto():
+    pass
+
+def editar_producto():
+    pass
+
+def eliminar_producto():
+    pass 

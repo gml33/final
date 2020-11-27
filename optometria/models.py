@@ -25,6 +25,22 @@ class Producto(models.Model):
     def __str__(self):
         return f'{self.nombre} ${self.precio}'
 
+
+class Lente(models.Model):
+    distancia = [
+        ('cerca','Cerca'),
+        ('lejos','Lejos')
+    ]
+    lado = [
+        ('izquierdo','Izquierdo'),
+        ('derecho','Derecho')
+    ]
+
+    distancia = models.CharField(max_length=16, choices=distancia, default='cerca')
+    lado = models.CharField(max_length=16, choices=lado, default='izquierdo')
+    armazon = models.BooleanField('con armazon/sin armazon', default=False)
+
+
 class Pedido(models.Model):
     tipo_pago = [
         ("credito","Tarjeta de Crédito"),

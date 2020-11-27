@@ -189,11 +189,45 @@ def agregar_producto(request):
         })
 
 
-def editar_producto():
-    pass
+def editar_producto(request, id):
+    producto = Producto.objects.get(id=id)
+    if request.user.rol == 'venta':
+        if request.method == 'GET':
+            form = ProductoForm(instance=producto)
+        else:
+            form = ProductoForm(request.POST, instance=producto)
+            if form.is_valid():
+                precio = int(form.cleaned_data['precio'])
+                form.save()
+                messages.success(request, ('Se editó el producto.'))
+                return HttpResponseRedirect(reverse('optometria:ver_producto'))
+    else:
+        form = ProductoForm()
+    return render(request, 'optometria/editar_producto.html',{
+        'grupo': request.user.rol,
+        'producto': Producto.objects.get(id=id)
+        })
 
-def eliminar_producto():
-    pass 
+def eliminar_producto(request, id):
+    data = Producto.objects.all()
+    producto = Producto.objects.get(id=id)
+    if request.user.rol == 'venta':
+        producto.delete()
+        messages.success(request, ('Se eliminó el producto.'))
+        return render(request, 'optometria/ver_producto.html',{
+            'grupo': request.user.rol,
+            'data': data,
+        })
+    else:
+        messages.success(request, ('Ocurrió un error, estamos en la sopa..... :('))
+        return render(request, 'optometria/ver_producto.html',{
+            'grupo': request.user.rol,
+            'data': data,
+        })
+    return render(request, 'optometria/ver_producto.html',{
+            'grupo': request.user.rol,
+            'data': data,
+        })
 #----------------------------Pedidos-----------------------------------------------------
 
 def ver_pedido():

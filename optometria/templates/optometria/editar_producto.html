@@ -1,0 +1,17 @@
+{% extends "optometria/new_layout.html" %}
+
+{% block body %}
+<h2><center>Editar Producto</center></h2>
+    <form method="POST">
+    {% csrf_token %}  
+    <div class='form-group'>
+        <label for="nombre">Nombre nuevo: </label>
+        <input type="text" name="nombre" id=""></input>
+    </div>  
+    <div class='form-group'>
+        <label for="precio">Precio nuevo: </label>
+        <input type="text" name="precio" id=""></input>
+    </div>
+    <center><button type="submit" class="btn btn-success btn-lg">Registrar</button></center>
+    </form> 
+{% endblock %}

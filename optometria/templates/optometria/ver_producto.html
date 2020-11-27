@@ -21,7 +21,7 @@
                     <td><center>{{producto.id}}</center></td>    
                     <td><center>{{producto.nombre}}</center></td>
                     <td><center>{{producto.precio}}</center></td>
-                    <a href="{% url 'optometria:editar_producto' producto.id%}">Editar</a>
+                    <td><center><a href="{% url 'optometria:editar_producto' producto.id%}">Editar</a>
                     <a> - </a>
                     <a href="{% url 'optometria:eliminar_producto' producto.id%}">Eliminar</a>
                     </center></td>                                

@@ -20,7 +20,7 @@ def index(request):
 #----------------------------------------------turnos----------------------------------------------
 def ver_turnos(request):
     if len(Turno.objects.all()) > 0:
-        data = Turno.objects.all()
+        data = Turno.objects.all().order_by('-fecha')
     else:
         data = None
     return render(request, 'optometria/ver_turno.html',{
@@ -90,7 +90,7 @@ def eliminar_turno(request, id):
 #--------------------------------------------------------HC--------------------------------------------
 def ver_hc(request):
     if len(Hc.objects.all()) > 0:
-        data = Hc.objects.filter(medico_id = request.user.id)
+        data = Hc.objects.filter(medico_id = request.user.id).order_by('-fecha')
     else:
         data = None
     return render(request, 'optometria/ver_hc.html',{
@@ -163,18 +163,47 @@ def eliminar_hc(request, id):
 
 def ver_producto(request):
     if len(Producto.objects.all()) > 0:
-        data = Producto.objects.filter(medico_id = request.user.id)
+        data = Producto.objects.all()
     else:
         data = None
     return render(request, 'optometria/ver_producto.html',{
         'grupo': request.user.rol,
         'data': data,
         })
-def agregar_producto():
-    pass
+
+def agregar_producto(request):    
+    if request.method == 'POST':
+        form = ProductoForm(request.POST)
+        if form.is_valid():
+            nombre = form.cleaned_data['nombre']
+            precio = int(form.cleaned_data['precio'])
+            form.save()
+            messages.success(request, ('Producto Registrado.'))
+            return HttpResponseRedirect(reverse('optometria:ver_producto'))
+        else:
+            form = HcForm()
+    return render(request, 'optometria/agregar_producto.html',{
+        'grupo': request.user.rol,
+        'pacientes':User.objects.filter(rol='paciente'),
+        'medico':request.user.id
+        })
+
 
 def editar_producto():
     pass
 
 def eliminar_producto():
     pass 
+#----------------------------Pedidos-----------------------------------------------------
+
+def ver_pedido():
+    pass
+
+def agregar_pedido():
+    pass
+
+def editar_pedido():
+    pass
+
+def eliminar_pedido():
+    pass

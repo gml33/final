@@ -58,14 +58,7 @@ class Pedido(models.Model):
     items = models.ManyToManyField(Producto)
     paciente = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='Pedido_paciente')
     tipo_de_pago = models.CharField(max_length=10, choices=tipo_pago, default='efectivo')
-    estado = models.CharField(max_length=12, choices=estado_pedido, default='pendiente')    
-
-    def precio(self, items):
-        precio = 0
-        for item in items:
-            precio = precio+item.precio
-            return precio
-    precio = models.FloatField(precio)
-
-    def __str__(self):
-        return f"Pedido ID: {self.id}, precio: {self.precio}"
+    estado = models.CharField(max_length=12, choices=estado_pedido, default='pendiente')
+    
+    def precio():
+        pass

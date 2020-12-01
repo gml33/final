@@ -22,6 +22,36 @@
         {% endfor %}
         </select>
     </div>
+    <button type="button" onclick="agregar_lente()">Agregar Lente</button>
+    <br>
+    <br>
+    <div id='lente' style="display:none">
+        <div class='form-group'>
+            <label for="distancia">Distancia:</label>
+            <select name="distancia">
+            <option value="cerca">Cerca</option>
+            <option value="Lejos">Lejos</option>
+            </select>
+        </div>
+        <div class='form-group'>
+            <label for="lado">Lado:</label>
+            <select name="lado">
+            <option value="izquierda">Izquierda</option>
+            <option value="derecha">Derecha</option>
+            </select>
+        </div>
+        <div class='form-group'>
+            <label for="armazon">Armazón:</label>
+            <select name="armazon">
+            <option value="con armazon">Con Armazón</option>
+            <option value="sin armazon">Sin Armazón</option>
+            </select>
+        </div>
+        <div class='form-group'>
+        <label for="precio">precio: </label>
+        <input type="text" name="precio"></input>
+    </div>
+    </div>
     <div class='form-group'>
         <label for="tipo_pago">Medio de Pago:</label>
         <select name="tipo_pago" id="">
@@ -30,7 +60,7 @@
             <option value="credito">Tarjeta de Crédito</option>
             <option value="virtual">Billetera Virtual</option>
         </select>
-    </div>
+    
     <div class='form-group'>
         <label for="Fecha">Fecha</label>
         <input type="date" name="fecha" id=""></input>
@@ -38,5 +68,15 @@
     <center>
     <button type="reset" class="btn btn-danger btn-lg">Borrar</button>
     <button type="submit" class="btn btn-success btn-lg">Registrar</button></center>
-    </form> 
+    </form>
+<script>    
+        function agregar_lente() {
+            var x = document.getElementById("lente");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+            }
+</script> 
 {% endblock %}

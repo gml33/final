@@ -243,14 +243,17 @@ def ver_pedido(request):
 
 def agregar_pedido(request):
     if request.method == 'POST':
-        form = PedidoForm(request.POST)
-        if form.is_valid():
-            form.save()
+        form_pedido = PedidoForm(request.POST)
+        form_lente = LenteForm(request.POST)
+        if form_pedido.is_valid() and form_lente.is_valid():
+            form_pedido.save()
+            form_lente.save()
             messages.success(request, ('Pedido Registrado.'))
             return HttpResponseRedirect(reverse('optometria:ver_pedido'))
         else:
             messages.success(request, ('Pedido no registrado.'))
-            form = PedidoForm()
+            form_pedido = PedidoForm(request.POST)
+            form_lente = LenteForm(request.POST)
     return render(request, 'optometria/agregar_pedido.html',{
         'grupo': request.user.rol,
         'pacientes':User.objects.filter(rol='paciente'),

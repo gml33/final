@@ -23,3 +23,8 @@ class PedidoForm(forms.ModelForm):
         model = Pedido
         fields = '__all__'
 
+class LenteForm(forms.ModelForm):
+    class Meta:
+        model = Lente
+        fields = '__all__'
+

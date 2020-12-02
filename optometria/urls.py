@@ -27,5 +27,6 @@ urlpatterns = [
     path('agregar/pedido/', views.agregar_pedido, name='agregar_pedido'),
     path('editar/pedido/<int:id>', views.editar_pedido, name='editar_pedido'),
     path('pedido/<int:id>/eliminar', views.eliminar_pedido, name='eliminar_pedido'),
+    path('pedido/<int:id>/finalizar', views.finalizar_pedido, name='finalizar_pedido'),
     path('pedido/<int:id>/detalle', views.detalle_pedido, name='detalle_pedido'),
     ]

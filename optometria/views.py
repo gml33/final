@@ -360,3 +360,24 @@ def detalle_pedido(request, id):
         'vendedor':vendedor,
         'precio_final': precio_final,
         })
+
+
+def finalizar_pedido(request, id):
+    data = Pedido.objects.all()
+    if request.user.rol == 'taller':
+        Pedido.objects.filter(id=id).update(estado='finalizado')
+        messages.success(request, ('Se finalizó el pedido.'))
+        return render(request, 'optometria/ver_pedido.html',{
+            'grupo': request.user.rol,
+            'data': data,
+        })
+    else:
+        messages.success(request, ('Ocurrió un error, estamos en la sopa..... :('))
+        return render(request, 'optometria/ver_pedido.html',{
+            'grupo': request.user.rol,
+            'data': data,
+        })
+    return render(request, 'optometria/ver_pedido.html',{
+            'grupo': request.user.rol,
+            'data': data,
+        })

@@ -8,6 +8,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.views.generic import TemplateView
 from datetime import datetime
+from django.core.exceptions import ObjectDoesNotExist
 
 
 User = get_user_model()
@@ -332,7 +333,12 @@ def eliminar_pedido(request, id):
         })
 
 def detalle_pedido(request, id):
+    try:
+        lente = Lente.objects.get(pedido=id)
+    except ObjectDoesNotExist:
+        lente = None
     return render(request, 'optometria/detalle_pedido.html',{
         'grupo': request.user.rol,
         'pedido': Pedido.objects.get(id=id),
+        'lente': lente
         })

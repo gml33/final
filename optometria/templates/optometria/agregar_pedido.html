@@ -4,8 +4,8 @@
 <h2><center>Nuevo Pedido</center></h2>
     <form method="POST">
     {% csrf_token %}
-    <div class='form-group'><input type="hidden" name="estado" id="" value="pendiente"></input>
-    <div class='form-group'><input type="hidden" name="precio" id="" value="0"></input>
+    <div class='form-group'><input type="hidden" name="estado" value="pendiente"></input>
+    <div class='form-group'><input type="hidden" name="pide_lente" id="pide_lente" value="False"></input>
     <div class='form-group'>
         <label for="paciente">Seleccionar Paciente</label>
         <select name="paciente" id="">
@@ -15,8 +15,8 @@
         </select>
     </div>
     <div class='form-group'>
-        <label for="producto">Seleccionar Producto</label>
-        <select name="producto" id="" multiple>
+        <label for="items">Seleccionar Producto</label>
+        <select name="items" id="" multiple required>
         {% for producto in productos %}
             <option value="{{producto.id}}">{{producto.nombre}} -- ${{producto.precio}}</option> 
         {% endfor %}
@@ -30,31 +30,31 @@
             <label for="distancia">Distancia:</label>
             <select name="distancia">
             <option value="cerca">Cerca</option>
-            <option value="Lejos">Lejos</option>
+            <option value="lejos">Lejos</option>
             </select>
         </div>
         <div class='form-group'>
             <label for="lado">Lado:</label>
             <select name="lado">
-            <option value="izquierda">Izquierda</option>
-            <option value="derecha">Derecha</option>
+            <option value="izquierdo">Izquierda</option>
+            <option value="derecho">Derecha</option>
             </select>
         </div>
         <div class='form-group'>
-            <label for="armazon">Armazón:</label>
+            <label for="armazon">armazon:</label>
             <select name="armazon">
-            <option value="con armazon">Con Armazón</option>
-            <option value="sin armazon">Sin Armazón</option>
+            <option value="True">Con armazon</option>
+            <option value="False">Sin armazon</option>
             </select>
         </div>
         <div class='form-group'>
         <label for="precio">precio: </label>
-        <input type="text" name="precio"></input>
+        <input type="number" name="precio"></input>
     </div>
     </div>
     <div class='form-group'>
-        <label for="tipo_pago">Medio de Pago:</label>
-        <select name="tipo_pago" id="">
+        <label for="tipo_de_pago">Medio de Pago:</label>
+        <select name="tipo_de_pago" id="">
             <option value="efectivo">Efectivo</option>
             <option value="debito">Tarjeta de Débito</option>
             <option value="credito">Tarjeta de Crédito</option>
@@ -63,7 +63,7 @@
     
     <div class='form-group'>
         <label for="Fecha">Fecha</label>
-        <input type="date" name="fecha" id=""></input>
+        <input type="date" name="fecha" required></input>
     </div>
     <center>
     <button type="reset" class="btn btn-danger btn-lg">Borrar</button>
@@ -74,8 +74,10 @@
             var x = document.getElementById("lente");
             if (x.style.display === "none") {
                 x.style.display = "block";
+                document.getElementById("pide_lente").setAttribute('value', 'True');
             } else {
                 x.style.display = "none";
+                document.getElementById("pide_lente").setAttribute('value', 'False');
             }
             }
 </script> 

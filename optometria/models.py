@@ -46,12 +46,6 @@ class Pedido(models.Model):
     estado = models.CharField(max_length=12, choices=estado_pedido, default='pendiente')
     fecha = models.DateField(auto_now_add=False, auto_now= False, blank=False)
 
-    def precio(self):
-        precio = 0
-        for item in self.items:
-            precio += item.precio
-        return self.precio
-
 class Lente(models.Model):
     distancia = [
         ('cerca','Cerca'),
@@ -63,5 +57,5 @@ class Lente(models.Model):
     ]
     distancia = models.CharField(max_length=16, choices=distancia, default='cerca')
     lado = models.CharField(max_length=16, choices=lado, default='izquierdo')
-    armazon = models.BooleanField('con armazon/sin armazon', default=False)
+    armazon = models.BooleanField(default=False)
     precio = models.FloatField()

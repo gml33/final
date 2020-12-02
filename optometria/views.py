@@ -245,13 +245,31 @@ def agregar_pedido(request):
     if request.method == 'POST':
         form_pedido = PedidoForm(request.POST)
         form_lente = LenteForm(request.POST)
-        if form_pedido.is_valid() and form_lente.is_valid():
-            form_pedido.save()
-            form_lente.save()
-            messages.success(request, ('Pedido Registrado.'))
-            return HttpResponseRedirect(reverse('optometria:ver_pedido'))
+        print(request.POST)
+        if form_pedido.is_valid():
+            form_pedido.save()            
+            if request.POST['pide_lente'] == 'True':
+                print(Pedido.objects.latest('pk').pk)
+                request.POST = request.POST.copy()
+                request.POST['distancia'] = request.POST['distancia']
+                request.POST['lado'] = request.POST['lado']
+                request.POST['armazon'] = request.POST['armazon']
+                request.POST['precio'] = request.POST['precio']
+                #request.POST['lente_pedido'] = int(Pedido.objects.latest('pk').pk)
+                if form_lente.is_valid():
+                    print('lenteForm is valid')
+                    form_lente.save()
+                    messages.success(request, ('Pedido con lentes registrados.'))
+                    return HttpResponseRedirect(reverse('optometria:ver_pedido'))
+                else:
+                    messages.success(request, ('Pedido no registrado. lente_form mal hecho'))
+                    form_pedido = PedidoForm(request.POST)
+                    form_lente = LenteForm(request.POST)
+            else:
+                messages.success(request, ('Pedido Registrado.'))
+                return HttpResponseRedirect(reverse('optometria:ver_pedido'))
         else:
-            messages.success(request, ('Pedido no registrado.'))
+            messages.success(request, ('Pedido no registrado. pedido_form mal hecho'))
             form_pedido = PedidoForm(request.POST)
             form_lente = LenteForm(request.POST)
     return render(request, 'optometria/agregar_pedido.html',{
@@ -283,8 +301,10 @@ def editar_pedido(request, id):
 def eliminar_pedido(request, id):
     data = Pedido.objects.all()
     pedido = Pedido.objects.get(id=id)
+    #lente = Lente.objects.get(pedido=id)
     if request.user.rol == 'venta':
         pedido.delete()
+        #lente.delete()
         messages.success(request, ('Se eliminó el pedido.'))
         return render(request, 'optometria/ver_pedido.html',{
             'grupo': request.user.rol,
@@ -301,7 +321,7 @@ def eliminar_pedido(request, id):
             'data': data,
         })
 
-def detalle_pedido(request):
+def detalle_pedido(request, id):
     return render(request, 'optometria/detalle_pedido.html',{
         'grupo': request.user.rol,
         'pedido': Pedido.objects.get(id=id),

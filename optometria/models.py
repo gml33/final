@@ -45,6 +45,8 @@ class Pedido(models.Model):
     tipo_de_pago = models.CharField(max_length=10, choices=tipo_pago, default='efectivo')
     estado = models.CharField(max_length=12, choices=estado_pedido, default='pendiente')
     fecha = models.DateField(auto_now_add=False, auto_now= False, blank=False)
+    vendedor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='pedido_vendedor')
+    precio = models.FloatField()
 
 
 class Lente(models.Model):

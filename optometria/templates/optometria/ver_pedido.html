@@ -12,7 +12,6 @@
                     <th scope="col"><center>Paciente</center></th>
                     <th scope="col"><center>Fecha</center></th>
                     <th scope="col"><center>Estado</center></th>
-                    <th scope="col"><center>Subtotal</center></th>
                     <th scope="col"><center>Detalle</center></th>
                     <th scope="col"><center>Acciones</center></th>
                 </tr>
@@ -23,7 +22,6 @@
                     <td><center>{{pedido.paciente}}</center></td>    
                     <td><center>{{pedido.fecha}}</center></td>
                     <td><center>{{pedido.estado}}</center></td>
-                    <td><center>{{pedido.precio}}</center></td>
                     <td><center><a href="{% url 'optometria:detalle_pedido' pedido.id%}">Ver</a></center></td>                   
                     <td><center>
                     <a href="{% url 'optometria:editar_pedido' pedido.id%}">Editar</a>

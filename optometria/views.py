@@ -244,17 +244,20 @@ def ver_pedido(request):
 
 def agregar_pedido(request):
     if request.method == 'POST':
-        request.POST = request.POST.copy()        
-        precio = 0
+        request.POST = request.POST.copy()
+        print(request.POST)
+        precio_pedido = 0
+        precio_lente = 0
         for item in list(request.POST.getlist('items')):
             producto = Producto.objects.get(id=item)
-            precio = precio + producto.precio
+            precio_pedido = precio_pedido + producto.precio
         if request.POST['pide_lente'] == 'True':
-            precio = precio + int(request.POST['precio'])
+            precio_lente = int(request.POST['precio'])
+            precio_total = precio_pedido + precio_lente
         else:
             pass
         request.POST['vendedor'] = request.user.id
-        request.POST['precio'] = precio
+        request.POST['precio'] = precio_pedido
         form_pedido = PedidoForm(request.POST)
         form_lente = LenteForm(request.POST)        
         if form_pedido.is_valid():
@@ -263,7 +266,7 @@ def agregar_pedido(request):
                 request.POST['distancia'] = request.POST['distancia']
                 request.POST['lado'] = request.POST['lado']
                 request.POST['armazon'] = request.POST['armazon']
-                request.POST['precio'] = request.POST['precio']
+                request.POST['precio'] = precio_lente #precio del lente
                 request.POST['pedido'] = Pedido.objects.latest('pk').pk
                 form_lente = LenteForm(request.POST)
                 if form_lente.is_valid():
@@ -343,6 +346,11 @@ def detalle_pedido(request, id):
     except ObjectDoesNotExist:
         lente = None
     
+    if lente != None:
+        precio_final = pedido.precio + lente.precio
+    else:
+        precio_final = None
+    
     return render(request, 'optometria/detalle_pedido.html',{
         'grupo': request.user.rol,
         'pedido': Pedido.objects.get(id=id),
@@ -350,4 +358,5 @@ def detalle_pedido(request, id):
         'paciente':paciente,
         'items':items,
         'vendedor':vendedor,
+        'precio_final': precio_final,
         })

@@ -245,23 +245,22 @@ def agregar_pedido(request):
     if request.method == 'POST':
         form_pedido = PedidoForm(request.POST)
         form_lente = LenteForm(request.POST)
-        print(request.POST)
         if form_pedido.is_valid():
             form_pedido.save()            
             if request.POST['pide_lente'] == 'True':
-                print(Pedido.objects.latest('pk').pk)
                 request.POST = request.POST.copy()
                 request.POST['distancia'] = request.POST['distancia']
                 request.POST['lado'] = request.POST['lado']
                 request.POST['armazon'] = request.POST['armazon']
                 request.POST['precio'] = request.POST['precio']
-                #request.POST['lente_pedido'] = int(Pedido.objects.latest('pk').pk)
+                request.POST['pedido'] = Pedido.objects.latest('pk').pk
+                form_lente = LenteForm(request.POST)
                 if form_lente.is_valid():
-                    print('lenteForm is valid')
                     form_lente.save()
                     messages.success(request, ('Pedido con lentes registrados.'))
                     return HttpResponseRedirect(reverse('optometria:ver_pedido'))
                 else:
+                    print(form_lente.errors)
                     messages.success(request, ('Pedido no registrado. lente_form mal hecho'))
                     form_pedido = PedidoForm(request.POST)
                     form_lente = LenteForm(request.POST)

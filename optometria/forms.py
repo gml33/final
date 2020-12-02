@@ -18,13 +18,14 @@ class ProductoForm(forms.ModelForm):
         model = Producto
         fields = '__all__'
 
+
 class PedidoForm(forms.ModelForm):
     class Meta:
         model = Pedido
         fields = '__all__'
 
+
 class LenteForm(forms.ModelForm):
     class Meta:
         model = Lente
         fields = '__all__'
-

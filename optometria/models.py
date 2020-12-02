@@ -46,6 +46,7 @@ class Pedido(models.Model):
     estado = models.CharField(max_length=12, choices=estado_pedido, default='pendiente')
     fecha = models.DateField(auto_now_add=False, auto_now= False, blank=False)
 
+
 class Lente(models.Model):
     distancia = [
         ('cerca','Cerca'),
@@ -59,3 +60,4 @@ class Lente(models.Model):
     lado = models.CharField(max_length=16, choices=lado, default='izquierdo')
     armazon = models.BooleanField(default=False)
     precio = models.FloatField()
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name='lente_pedido')

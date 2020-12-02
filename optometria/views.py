@@ -333,12 +333,21 @@ def eliminar_pedido(request, id):
         })
 
 def detalle_pedido(request, id):
+    pedido = Pedido.objects.get(id=id)
+    paciente = User.objects.get(id=pedido.paciente.id)
+    items = Producto.objects.filter(pedido=id)
+    vendedor = User.objects.get(id=pedido.vendedor.id)
+
     try:
         lente = Lente.objects.get(pedido=id)
     except ObjectDoesNotExist:
         lente = None
+    
     return render(request, 'optometria/detalle_pedido.html',{
         'grupo': request.user.rol,
         'pedido': Pedido.objects.get(id=id),
-        'lente': lente
+        'lente': lente,
+        'paciente':paciente,
+        'items':items,
+        'vendedor':vendedor,
         })

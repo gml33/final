@@ -1,4 +1,164 @@
 {% extends "optometria/new_layout.html" %}
 {% block body %}
-<h1>Body Block</h1>
+{% if grupo == "secretario" %}
+
+<title>Turnos</title>
+<br>
+{% if turnos != None %}
+    <h2><center>Turnos</center></h2>
+    <br>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-success">
+                    <th scope="col"><center>Id</center></th>
+                    <th scope="col"><center>Fecha</center></th>
+                    <th scope="col"><center>Paciente</center></th>
+                    <th scope="col"><center>Especialista</center></th>
+                    <th scope="col"><center>Cumplió</center></th>
+                    <th scope="col"><center>Acciones</center></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for turno in turnos %}
+                <tr>
+                    <td><center>{{turno.id}}</center></td>    
+                    <td><center>{{turno.fecha}}</center></td>
+                    <td><center>{{turno.paciente}}</center></td>
+                    <td><center>{{turno.medico}}</center></td>
+                    {% if turno.cumplio %}
+                        <td><center>Si</center></td>
+                    {% else %}
+                        <td><center>No</center></td>
+                    {% endif %}
+                    <td><center>
+                    <a href="{% url 'optometria:editar_turno' turno.id%}">Editar</a>
+                    <a> - </a>
+                    <a href="{% url 'optometria:eliminar_turno' turno.id%}">Eliminar</a>
+                    </center></td>                                
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}    
+    <h2><center>No hay Turnos</center></h2>
+    <br>
+{% endif %}
+{% elif grupo == "medicos" %}
+    {% if hcs != None %}
+    <title>Historias Clínicas</title>
+    <br>
+    <h2><center>Historias Clínicas</center></h2>
+    <br>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-success">
+                    <th scope="col"><center>Id</center></th>                
+                    <th scope="col"><center>Paciente</center></th>
+                    <th scope="col"><center>Fecha</center></th>
+                    <th scope="col"><center>Detalle</center></th>
+                    <th scope="col"><center>Acciones</center></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for hc in hcs %}
+                <tr>
+                    <td><center>{{hc.id}}</center></td>    
+                    <td><center>{{hc.paciente}}</center></td>
+                    <td><center>{{hc.fecha}}</center></td>
+                    <td><center>{{hc.detalle}}</center></td>
+                    <td><center><a href="{% url 'optometria:editar_hc' hc.id %}">Editar</a>
+                    <center><a> - </a>
+                    <center><a href="{% url 'optometria:eliminar_hc' hc.id %}">Eliminar</a></td>
+                    </center></td>                                
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <h2><center>No hay Historias Clínicas registradas</center></h2>
+    <br>
+{% endif %}
+{% elif grupo == "venta" %}
+<title>Pedidos</title>
+<br>
+{% if pedidos != None %}
+    <h2><center>Pedidos</center></h2>
+    <br>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-success">
+                    <th scope="col"><center>Paciente</center></th>
+                    <th scope="col"><center>Fecha</center></th>
+                    <th scope="col"><center>Estado</center></th>
+                    <th scope="col"><center>Detalle</center></th>
+                    <th scope="col"><center>Acciones</center></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for pedido in pedidos %}
+                <tr>
+                    <td><center>{{pedido.paciente}}</center></td>    
+                    <td><center>{{pedido.fecha}}</center></td>
+                    <td><center>{{pedido.estado}}</center></td>
+                    <td><center><a href="{% url 'optometria:detalle_pedido' pedido.id%}">Ver</a></center></td>                   
+                    <td><center>
+                    <a href="{% url 'optometria:editar_pedido' pedido.id%}">Editar</a>
+                    <a> - </a>
+                    <a href="{% url 'optometria:eliminar_pedido' pedido.id%}">Eliminar</a>
+                    </center></td>                                
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}    
+    <h2><center>No hay Pedidos Registrados</center></h2>
+    <br>
+{% endif %}
+{% elif grupo == "taller" %}
+<title>Pedidos</title>
+<br>
+{% if pedidos != None %}
+    <h2><center>Pedidos</center></h2>
+    <br>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-success">
+                <th scope="col"><center>Id</center></th>
+                    <th scope="col"><center>Paciente</center></th>
+                    <th scope="col"><center>Fecha</center></th>
+                    <th scope="col"><center>Estado</center></th>
+                    <th scope="col"><center>Detalle</center></th>
+                    <th scope="col"><center>Cambiar estado</center></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for pedido in pedidos %}
+                <tr>
+                    <td><center>{{pedido.id}}</center></td>
+                    <td><center>{{pedido.paciente}}</center></td>    
+                    <td><center>{{pedido.fecha}}</center></td>
+                    <td><center>{{pedido.estado}}</center></td>
+                    <td><center><a href="{% url 'optometria:detalle_pedido' pedido.id%}">Ver</a></center></td>
+                    {% if pedido.estado != 'finalizado' %}                    
+                    <td><center><a href="{% url 'optometria:finalizar_pedido' pedido.id%}">Finalizar</a></center></td>
+                    {% else %}
+                    <td><center><a>---</a></center></td>
+                    {% endif %}
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}    
+    <h2><center>No hay Pedidos Registrados</center></h2>
+    <br>
+{% endif %}
+{% endif %}
 {% endblock %}

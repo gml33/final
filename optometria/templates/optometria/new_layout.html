@@ -15,7 +15,7 @@
   <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="{% url 'optometria:index' %}">SGE Optometría</a>
-  <a class="navbar-brand">{{grupo}}</a>
+  <a class="navbar-brand">Grupo: {{grupo}}</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -29,47 +29,23 @@
 
     {% if grupo == "secretario" %}
       <li class="nav-item">
-        <a class="nav-link active" href="{% url 'optometria:ver_turnos'%}">Ver Turnos</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link active" href="{% url 'optometria:agregar_turno'%}">Crear Turno</a>
       </li>      
-    {% elif grupo == "medicos" %}
-      <li class="nav-item">
-        <a class="nav-link active" href="{% url 'optometria:ver_hc'%}">Ver Historias Clínicas</a>
-      </li>
+    {% elif grupo == "medicos" %}      
       <li class="nav-item">
         <a class="nav-link active" href="{% url 'optometria:agregar_hc'%}">Crear Historia Clínica</a>
       </li>      
     {% elif grupo == "venta" %}
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Productos
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{% url 'optometria:agregar_producto' %}">Crear</a>
-          <a class="dropdown-item" href="{% url 'optometria:ver_producto' %}">Ver</a>
-        </div>
+    <li class="nav-item">
+        <a class="nav-link active" href="{% url 'optometria:ver_producto'%}">Ver productos</a>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Pedidos
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{% url 'optometria:agregar_pedido' %}">Crear</a>
-          <a class="dropdown-item" href="{% url 'optometria:ver_pedido' %}">Ver</a>
-        </div>
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url 'optometria:agregar_producto' %}">Cargar producto nuevo</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url 'optometria:agregar_pedido' %}">Crear pedido</a>
+      </li>   
     {% elif grupo == "taller" %}
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Pedidos
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{% url 'optometria:ver_pedido' %}">Ver</a>
-          <a class="dropdown-item" href="#">Editar</a>
-        </div>
-      </li>
     {% elif grupo == "gerencia" %}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -114,7 +90,7 @@
 </nav>
     
 <div class='container'>
-<br><br>
+<br>
 {% if messages %}
       {% for message in messages %}
         <div class="alert alert-success alert-dismissible fade show" role="alert">

@@ -63,10 +63,8 @@
                     <td><center>{{pedido.paciente}}</center></td>    
                     <td><center>{{pedido.fecha}}</center></td>
                     <td><center>{{pedido.estado}}</center></td>
-                    <td><center><a href="{% url 'optometria:detalle_pedido' pedido.id%}">Ver</a></center></td>                   
-                    <td><center>
-                    <a href="{% url 'optometria:finalizar_pedido' pedido.id%}">Finalizar</a>
-                    </center></td>                                
+                    <td><center><a href="{% url 'optometria:detalle_pedido' pedido.id%}">Ver</a></center></td>
+                    <td><center><a href="{% url 'optometria:finalizar_pedido' pedido.id%}">Finalizar</a></center></td>                                
                     </tr>
             {% endfor %}
             </tbody>

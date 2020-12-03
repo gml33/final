@@ -15,8 +15,23 @@ User = get_user_model()
 
 
 def index(request):
+    if len(Turno.objects.all()) > 0:
+        turnos = Turno.objects.all().order_by('-fecha')
+    else:
+        turnos = None
+    if len(Hc.objects.filter(medico_id=request.user.id)) > 0:
+        hcs = Hc.objects.filter(medico_id = request.user.id).order_by('-fecha')
+    else:
+        hcs = None
+    if len(Pedido.objects.all()) > 0:
+        pedidos = Pedido.objects.all()
+    else:
+        pedidos = None
     return render(request, 'optometria/index.html',{
-        'grupo': request.user.rol
+        'grupo': request.user.rol,
+        'turnos': turnos,
+        'hcs':hcs,
+        'pedidos':pedidos,
     })
 #----------------------------------------------turnos----------------------------------------------
 def ver_turnos(request):
@@ -39,7 +54,7 @@ def agregar_turno(request):
             medico = form.cleaned_data['medico']
             form.save()
             messages.success(request, ('El turno fue creado exitosamente.'))
-            return HttpResponseRedirect(reverse('optometria:ver_turnos'))
+            return HttpResponseRedirect(reverse('optometria:index'))
     else:
         form = TurnoForm()        
     return render(request, 'optometria/agregar_turno.html',{
@@ -74,17 +89,17 @@ def eliminar_turno(request, id):
     if request.user.rol == 'secretario':
         turno.delete()
         messages.success(request, ('El turno fue eliminado exitosamente.'))
-        return render(request, 'optometria/ver_turno.html',{
+        return render(request, 'optometria/index.html',{
             'grupo': request.user.rol,
             'data': data,
         })
     else:
         messages.success(request, ('Ocurrió un error, por favor intente nuevamente'))
-        return render(request, 'optometria/ver_turno.html',{
+        return render(request, 'optometria/index.html',{
             'grupo': request.user.rol,
             'data': data,
         })
-    return render(request, 'optometria/ver_turno.html',{
+    return render(request, 'optometria/index.html',{
             'grupo': request.user.rol,
             'data': data,
         })
@@ -110,7 +125,7 @@ def agregar_hc(request):
             medico = form.cleaned_data['medico']
             form.save()
             messages.success(request, ('Hc fue creado exitosamente.'))
-            return HttpResponseRedirect(reverse('optometria:ver_hc'))
+            return HttpResponseRedirect(reverse('optometria:index'))
         else:
             form = HcForm()
     return render(request, 'optometria/agregar_hc.html',{
@@ -130,7 +145,7 @@ def editar_hc(request, id):
             if form.is_valid():
                 form.save()
                 messages.success(request, ('La Historia clínica fue editada con exito, fuck yeahh!!!!!.'))
-                return HttpResponseRedirect(reverse('optometria:ver_hc'))
+                return HttpResponseRedirect(reverse('optometria:index'))
     else:
         form = HcForm()
     return render(request, 'optometria/editar_hc.html',{
@@ -272,7 +287,7 @@ def agregar_pedido(request):
                 if form_lente.is_valid():
                     form_lente.save()
                     messages.success(request, ('Pedido con lentes registrados.'))
-                    return HttpResponseRedirect(reverse('optometria:ver_pedido'))
+                    return HttpResponseRedirect(reverse('optometria:index'))
                 else:
                     print(form_lente.errors)
                     messages.success(request, ('Pedido no registrado. lente_form mal hecho'))
@@ -280,7 +295,7 @@ def agregar_pedido(request):
                     form_lente = LenteForm(request.POST)
             else:                
                 messages.success(request, ('Pedido Registrado.'))
-                return HttpResponseRedirect(reverse('optometria:ver_pedido'))
+                return HttpResponseRedirect(reverse('optometria:index'))
         else:
             print(form_pedido.errors)
             messages.success(request, ('Pedido no registrado. pedido_form mal hecho'))
@@ -313,26 +328,30 @@ def editar_pedido(request, id):
         })
 
 def eliminar_pedido(request, id):
-    data = Pedido.objects.all()
-    pedido = Pedido.objects.get(id=id)
+    pedidos = Pedido.objects.all()
+    pedido_a_eliminar = Pedido.objects.get(id=id)
     #lente = Lente.objects.get(pedido=id)
     if request.user.rol == 'venta':
-        pedido.delete()
+        pedido_a_eliminar.delete()
         #lente.delete()
         messages.success(request, ('Se eliminó el pedido.'))
-        return render(request, 'optometria/ver_pedido.html',{
+        if len(Pedido.objects.all()) > 0:
+            pedidos = Pedido.objects.all()
+        else:
+            pedidos = None 
+        return render(request, 'optometria/index.html',{
             'grupo': request.user.rol,
-            'data': data,
+            'pedidos': pedidos,
         })
     else:
         messages.success(request, ('Ocurrió un error, estamos en la sopa..... :('))
-        return render(request, 'optometria/ver_pedido.html',{
+        return render(request, 'optometria/index.html',{
             'grupo': request.user.rol,
-            'data': data,
+            'pedidos': pedidos,
         })
-    return render(request, 'optometria/ver_pedido.html',{
+    return render(request, 'optometria/index.html',{
             'grupo': request.user.rol,
-            'data': data,
+            'pedidos': pedidos,
         })
 
 def detalle_pedido(request, id):
@@ -349,8 +368,8 @@ def detalle_pedido(request, id):
     if lente != None:
         precio_final = pedido.precio + lente.precio
     else:
-        precio_final = None
-    
+        precio_final = pedido.precio
+        
     return render(request, 'optometria/detalle_pedido.html',{
         'grupo': request.user.rol,
         'pedido': Pedido.objects.get(id=id),
@@ -363,21 +382,21 @@ def detalle_pedido(request, id):
 
 
 def finalizar_pedido(request, id):
-    data = Pedido.objects.all()
+    pedidos = Pedido.objects.all()
     if request.user.rol == 'taller':
         Pedido.objects.filter(id=id).update(estado='finalizado')
         messages.success(request, ('Se finalizó el pedido.'))
-        return render(request, 'optometria/ver_pedido.html',{
+        return render(request, 'optometria/index.html',{
             'grupo': request.user.rol,
-            'data': data,
+            'pedidos': pedidos,
         })
     else:
         messages.success(request, ('Ocurrió un error, estamos en la sopa..... :('))
-        return render(request, 'optometria/ver_pedido.html',{
+        return render(request, 'optometria/index.html',{
             'grupo': request.user.rol,
-            'data': data,
+            'pedidos': pedidos,
         })
-    return render(request, 'optometria/ver_pedido.html',{
+    return render(request, 'optometria/index.html',{
             'grupo': request.user.rol,
-            'data': data,
+            'pedidos': pedidos,
         })

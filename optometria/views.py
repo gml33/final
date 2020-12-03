@@ -402,8 +402,19 @@ def detalle_pedido(request, id):
 def finalizar_pedido(request, id):
     pedidos = Pedido.objects.all()
     if request.user.rol == 'taller':
-        Pedido.objects.filter(id=id).update(estado='finalizado')
-        messages.success(request, ('Se finalizó el pedido.'))
+        pedido = Pedido.objects.filter(id=id).values()
+        request.POST = request.POST.copy()
+        request.POST['vendedor']  = pedido[0]['vendedor_id']
+        request.POST['monto'] = pedido[0]['precio']
+        request.POST['fecha'] = datetime.now()
+        print(request.POST)
+        form_venta = VentaForm(request.POST)        
+        if form_venta.is_valid():
+            Pedido.objects.filter(id=id).update(estado='finalizado')
+            form_venta.save()
+            messages.success(request, ('Se finalizó el pedido, y se actualizaron los valores de venta.'))
+        else:
+            messages.success(request, ('Todo mal, la puta madre.'))
         return render(request, 'optometria/index.html',{
             'grupo': request.user.rol,
             'pedidos': pedidos,

@@ -179,11 +179,100 @@
     <br>
 {% endif %}
 {% elif grupo == "gerencia" %}
-    <h2><center>Reportes</center></h2>
+<h2><center>Reportes</center></h2>
+<center><h3>Pacientes que cumplieron con los turnos durante la última semana</h3></center>
 <br>
+<div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-success">
+                    <th scope="col"><center>Paciente</center></th>
+                    <th scope="col"><center>Fecha</center></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for turno in cumplio_semana %}
+                <tr>
+                    <td><center>{{turno.paciente}}</center></td>
+                    <td><center>{{turno.fecha}}</center></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+<hr>
+<center><h3>Pacientes que cumplieron con los turnos durante el último mes</h3></center>
+<br>
+<div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-success">
+                    <th scope="col"><center>Paciente</center></th>
+                    <th scope="col"><center>Fecha</center></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for turno in cumplio_mes %}
+                <tr>
+                    <td><center>{{turno.paciente}}</center></td>
+                    <td><center>{{turno.fecha}}</center></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+<hr>
+<center><h3>Pacientes que realizaron pedidos en la última semana</h3></center>
+<br>
+<div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-success">
+                    <th scope="col"><center>Vendedor</center></th>
+                    <th scope="col"><center>Paciente</center></th>
+                    <th scope="col"><center>Monto</center></th>
+                    <th scope="col"><center>Fecha</center></th>
 
-{% for turno in cumplio_semana %}
-    {{turno.paciente}}--{{turno.fecha}}
-{% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+            {% for pedido in pacientes_pedidos_semana %}
+                <tr>
+                    <td><center>{{pedido.vendedor}}</center></td>
+                    <td><center>{{pedido.paciente}}</center></td>
+                    <td><center>{{pedido.precio}}</center></td>
+                    <td><center>{{pedido.fecha}}</center></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+<hr>
+<center><h3>pacientes que realizaron pedidos realizados en último mes</h3></center>
+<br>
+<div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-success">
+                    <th scope="col"><center>Vendedor</center></th>
+                    <th scope="col"><center>Paciente</center></th>
+                    <th scope="col"><center>Monto</center></th>
+                    <th scope="col"><center>Fecha</center></th>
+
+                </tr>
+            </thead>
+            <tbody>
+            {% for pedido in pacientes_pedidos_mes %}
+                <tr>
+                    <td><center>{{pedido.vendedor}}</center></td>
+                    <td><center>{{pedido.paciente}}</center></td>
+                    <td><center>{{pedido.precio}}</center></td>
+                    <td><center>{{pedido.fecha}}</center></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+<hr>
 {% endif %}
 {% endblock %}

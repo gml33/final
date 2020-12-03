@@ -24,8 +24,9 @@ def index(request):
     no_cumplio_semana = Turno.objects.filter(fecha__gte=ultima_semana).exclude(cumplio=True)
     no_cumplio_mes = Turno.objects.filter(fecha__gte=ultimo_mes).exclude(cumplio=True)
 
-    pedidos_semana = Pedido.objects.filter(fecha__gte=ultima_semana)
-    pedidos_mes = Pedido.objects.filter(fecha__gte=ultimo_mes)
+    pacientes_pedidos_semana = Pedido.objects.filter(fecha__gte=ultima_semana)
+    pacientes_pedidos_mes = Pedido.objects.filter(fecha__gte=ultimo_mes)
+
     if len(Turno.objects.all()) > 0:
         turnos = Turno.objects.all().order_by('-fecha')
     else:
@@ -47,8 +48,8 @@ def index(request):
         'cumlpio_mes':cumplio_mes,
         'no_cumplio_semana':no_cumplio_semana,
         'no_cumplio_mes':no_cumplio_mes,
-        'pedidos_semana': pedidos_semana,
-        'pedidos_mes': pedidos_mes,
+        'pacientes_pedidos_semana': pacientes_pedidos_semana,
+        'pacientes_pedidos_mes': pacientes_pedidos_mes,
     })
 #----------------------------------------------turnos----------------------------------------------
 def ver_turnos(request):

@@ -34,6 +34,20 @@ def index(request):
         cantidad_pedidos[producto.nombre]=Pedido.objects.filter(items=producto.id).count()
     
     producto_mes = max(cantidad_pedidos.items(), key=operator.itemgetter(1))[0]
+
+    ventas_mes_vendedor = {}
+    
+    for vendedor in User.objects.filter(rol='venta'):
+        valor = 0
+        for venta in list(Venta.objects.filter(fecha__gte=ultimo_mes, vendedor=vendedor)):
+            valor = valor + venta.monto
+        ventas_mes_vendedor[vendedor] = valor
+    
+    for item in ventas_mes_vendedor:
+        print(item)
+    
+
+    
     
 
     

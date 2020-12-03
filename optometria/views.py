@@ -517,3 +517,22 @@ def ver_reportes(request):
             'pedidos_semana': pedidos_semana,
             'pedidos_mes': pedidos_mes,
             })
+
+
+#----------------------------Pacientes---------------------------------------------------
+def ver_pacientes(request):
+    ultima_semana = datetime.now() - timedelta(days=7)
+    ultimo_mes = datetime.now() - timedelta(days=30)
+    ultimo_ano = datetime.now() -timedelta(days=365)
+
+    hc_semana = Hc.objects.filter(fecha__gte=ultima_semana).filter(medico=request.user.id)
+    hc_mes = Hc.objects.filter(fecha__gte=ultimo_mes).filter(medico=request.user.id)
+    hc_ano = Hc.objects.filter(fecha__gte=ultimo_ano).filter(medico=request.user.id)
+
+    print(hc_semana)
+    return render(request, "optometria/pacientes.html",{
+            'grupo': request.user.rol,
+            'hc_semana':hc_semana,
+            'hc_mes':hc_mes,
+            'hc_ano':hc_ano,
+            })

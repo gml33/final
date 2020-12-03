@@ -1,0 +1,92 @@
+{% extends "optometria/new_layout.html" %}
+{% block body %}
+<title>Pacientes</title>
+<br>
+{% if turno_semana != '' %}
+    <h2><center>Pacientes en la última semana</center></h2>
+    <br>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-success">
+                    <th scope="col"><center>Fecha</center></th>
+                    <th scope="col"><center>Paciente</center></th>
+                    <th scope="col"><center>detalle</center></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for hc in hc_semana %}
+                <tr>
+                    <td><center>{{hc.fecha}}</center></td>
+                    <td><center>{{hc.paciente}}</center></td>
+                    <td><center>{{hc.detalle}}</center></td>                      
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}    
+    <h2><center>No hay Pacientes con Historias clínicas en la última semana</center></h2>
+    <br>
+    <hr>
+{% endif %}
+
+{% if turno_mes != '' %}
+    <h2><center>Pacientes en último mes</center></h2>
+    <br>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-success">
+                    <th scope="col"><center>Fecha</center></th>
+                    <th scope="col"><center>Paciente</center></th>
+                    <th scope="col"><center>detalle</center></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for hc in hc_mes %}
+                <tr>
+                    <td><center>{{hc.fecha}}</center></td>
+                    <td><center>{{hc.paciente}}</center></td>
+                    <td><center>{{hc.detalle}}</center></td>                      
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}    
+    <h2><center>No hay Pacientes con Historias clínicas en el último mes</center></h2>
+    <br>
+    <hr>
+{% endif %}
+
+{% if turno_ano != '' %}
+    <h2><center>Pacientes en último año</center></h2>
+    <br>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-success">
+                    <th scope="col"><center>Fecha</center></th>
+                    <th scope="col"><center>Paciente</center></th>
+                    <th scope="col"><center>detalle</center></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for hc in hc_ano %}
+                <tr>
+                    <td><center>{{hc.fecha}}</center></td>
+                    <td><center>{{hc.paciente}}</center></td>
+                    <td><center>{{hc.detalle}}</center></td>                      
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}    
+    <h2><center>No hay Pacientes con Historias clínicas en el último año</center></h2>
+    <br>
+    <hr>
+{% endif %}
+
+{% endblock %}

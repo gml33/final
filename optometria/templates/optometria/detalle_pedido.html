@@ -1,6 +1,6 @@
 {% extends "optometria/new_layout.html" %}
 {% block body %}
-{% if grupo == "venta" %}
+{% if grupo == "venta" or grupo == 'gerencia'%}
 <title>Detalle del pedido: {{pedido.id}}</title>
 <br>
 <h4><center>fecha de creación: {{pedido.fecha}}</center></h4>

@@ -43,8 +43,7 @@ def index(request):
             valor = valor + venta.monto
         dato = (vendedor.id, valor)
         vendedor_mensual.append(dato)
-
-    print(vendedor_mensual)
+    
 
     if len(Turno.objects.all()) > 0:
         turnos = Turno.objects.all().order_by('-fecha')
@@ -507,7 +506,7 @@ def ver_reportes(request):
     pedidos_semana = Pedido.objects.filter(fecha__gte=ultima_semana)
     pedidos_mes = Pedido.objects.filter(fecha__gte=ultimo_mes)
 
-    print(cumplio_semana)
+    
     return render(request, "optometria/index.html",{
             'grupo': request.user.rol,
             'cumplio_semana': cumplio_semana,
@@ -529,7 +528,7 @@ def ver_pacientes(request):
     hc_mes = Hc.objects.filter(fecha__gte=ultimo_mes).filter(medico=request.user.id)
     hc_ano = Hc.objects.filter(fecha__gte=ultimo_ano).filter(medico=request.user.id)
 
-    print(hc_semana)
+
     return render(request, "optometria/pacientes.html",{
             'grupo': request.user.rol,
             'hc_semana':hc_semana,

@@ -35,24 +35,16 @@ def index(request):
     
     producto_mes = max(cantidad_pedidos.items(), key=operator.itemgetter(1))[0]
 
-    ventas_mes_vendedor = {}
     
+    vendedor_mensual = []
+    valor = 0
     for vendedor in User.objects.filter(rol='venta'):
-        valor = 0
-        for venta in list(Venta.objects.filter(fecha__gte=ultimo_mes, vendedor=vendedor)):
+        for venta in Venta.objects.filter(fecha__gte=ultimo_mes, vendedor=vendedor):
             valor = valor + venta.monto
-        ventas_mes_vendedor[vendedor] = valor
-    
-    for item in ventas_mes_vendedor:
-        print(item)
-    
+        dato = (vendedor.id, valor)
+        vendedor_mensual.append(dato)
 
-    
-    
-
-    
-
-
+    print(vendedor_mensual)
 
     if len(Turno.objects.all()) > 0:
         turnos = Turno.objects.all().order_by('-fecha')
@@ -78,6 +70,7 @@ def index(request):
         'pacientes_pedidos_semana': pacientes_pedidos_semana,
         'pacientes_pedidos_mes': pacientes_pedidos_mes,
         'producto_mes':producto_mes,
+        'vendedor_mensual':vendedor_mensual,
     })
 #----------------------------------------------turnos----------------------------------------------
 def ver_turnos(request):

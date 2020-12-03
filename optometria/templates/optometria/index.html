@@ -320,5 +320,27 @@
 <br>
 <h3><center>{{producto_mes}}</center></h3>
 <hr>
+<center><h3>Ventas mensuales por vendedor</h3></center>
+<br>
+<div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-success">
+                    <th scope="col"><center>Vendedor</center></th>
+                    <th scope="col"><center>Monto</center></th>
+
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in vendedor_mensual %}
+                <tr>
+                    <td><center>{{item.0}}</center></td>
+                    <td><center>${{item.1}}</center></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+<hr>
 {% endif %}
 {% endblock %}

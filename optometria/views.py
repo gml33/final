@@ -9,6 +9,7 @@ from django.contrib.auth import get_user_model
 from django.views.generic import TemplateView
 from datetime import datetime, timedelta
 from django.core.exceptions import ObjectDoesNotExist
+import operator
 
 
 User = get_user_model()
@@ -26,6 +27,18 @@ def index(request):
 
     pacientes_pedidos_semana = Pedido.objects.filter(fecha__gte=ultima_semana)
     pacientes_pedidos_mes = Pedido.objects.filter(fecha__gte=ultimo_mes)
+
+    productos = Producto.objects.all()
+    cantidad_pedidos = {}
+    for producto in productos:
+        cantidad_pedidos[producto.nombre]=Pedido.objects.filter(items=producto.id).count()
+    
+    producto_mes = max(cantidad_pedidos.items(), key=operator.itemgetter(1))[0]
+    
+
+    
+
+
 
     if len(Turno.objects.all()) > 0:
         turnos = Turno.objects.all().order_by('-fecha')
@@ -50,6 +63,7 @@ def index(request):
         'no_cumplio_mes':no_cumplio_mes,
         'pacientes_pedidos_semana': pacientes_pedidos_semana,
         'pacientes_pedidos_mes': pacientes_pedidos_mes,
+        'producto_mes':producto_mes,
     })
 #----------------------------------------------turnos----------------------------------------------
 def ver_turnos(request):

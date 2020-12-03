@@ -45,7 +45,7 @@ def index(request):
         'hcs':hcs,
         'pedidos':pedidos,
         'cumplio_semana': cumplio_semana,
-        'cumlpio_mes':cumplio_mes,
+        'cumplio_mes':cumplio_mes,
         'no_cumplio_semana':no_cumplio_semana,
         'no_cumplio_mes':no_cumplio_mes,
         'pacientes_pedidos_semana': pacientes_pedidos_semana,
@@ -407,7 +407,6 @@ def finalizar_pedido(request, id):
         request.POST['vendedor']  = pedido[0]['vendedor_id']
         request.POST['monto'] = pedido[0]['precio']
         request.POST['fecha'] = datetime.now()
-        print(request.POST)
         form_venta = VentaForm(request.POST)        
         if form_venta.is_valid():
             Pedido.objects.filter(id=id).update(estado='finalizado')

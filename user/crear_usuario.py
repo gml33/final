@@ -1,6 +1,14 @@
 from django.contrib.auth import get_user_model
 from django.conf import settings
 User = get_user_model()
+item = User.objects.create_user('Tomas')
+item.set_password('contraseña1')
+item.last_name = 'Shelby'
+item.save()
+
+
+
+'''
 
 
 usuarios = [('user1','contraseña1'),
@@ -14,6 +22,16 @@ usuarios = [('user1','contraseña1'),
 ('user8','contraseña1')]
 
 for item in usuarios:
-    item = User.objects.create_user(item[0])
-    item.set_password(item[1])
+    item = User.objects.create_user('mayra')
+    item.set_password('contraseña1')
     item.save()
+'''
+
+
+
+
+
+item = User.objects.create_user('mayra')
+item.set_password('contraseña1')
+item.last_name = 'bruzzone'
+item.save()

@@ -41,7 +41,7 @@ def index(request):
     for vendedor in User.objects.filter(rol='venta'):
         for venta in Venta.objects.filter(fecha__gte=ultimo_mes, vendedor=vendedor):
             valor = valor + venta.monto
-        dato = (vendedor.id, valor)
+        dato = (vendedor.username, valor)
         vendedor_mensual.append(dato)
     
 

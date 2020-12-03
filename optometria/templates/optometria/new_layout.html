@@ -52,34 +52,12 @@
           Ver
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Turnos</a>
-          <a class="dropdown-item" href="#">Historias Clínicas</a>
-          <a class="dropdown-item" href="#">Pacientes</a>
-          <a class="dropdown-item" href="#">Médicos</a>
-          <a class="dropdown-item" href="#">Productos</a>
-          <a class="dropdown-item" href="#">Pedidos</a>
+          <a class="dropdown-item" href="{% url 'optometria:ver_turnos' %}">Turnos</a>
+          <a class="dropdown-item" href="{% url 'optometria:ver_hc' %}">Historias Clínicas</a>
+          <a class="dropdown-item" href="{% url 'optometria:ver_producto' %}">Productos</a>
+          <a class="dropdown-item" href="{% url 'optometria:ver_pedido' %}">Pedidos</a>
         </div>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Reportes
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Pacientes que cumplieron en la última semana</a>
-          <a class="dropdown-item" href="#">Pacientes que cumplieron en el último mes</a>
-          <a class="dropdown-item" href="#">Pedidos en la última semana</a>
-          <a class="dropdown-item" href="#">Pedidos en el último mes</a>
-          <a class="dropdown-item" href="#">Productos Mas vendidos del mes</a>
-          <a class="dropdown-item" href="#">Ventas Totales por Vendedores</a>
-        </div>
-      </li>
-
-
-
-
-
-
-
 
       <!--Aca termina el if del rol de usuario-->
       {% endif%}       

@@ -22,8 +22,8 @@ def index(request):
     cumplio_semana = Turno.objects.filter(fecha__gte=ultima_semana).filter(cumplio=True)
     cumplio_mes = Turno.objects.filter(fecha__gte=ultimo_mes).filter(cumplio=True)
 
-    no_cumplio_semana = Turno.objects.filter(fecha__gte=ultima_semana).exclude(cumplio=True)
-    no_cumplio_mes = Turno.objects.filter(fecha__gte=ultimo_mes).exclude(cumplio=True)
+    no_cumplio_semana = Turno.objects.filter(fecha__gte=ultima_semana).exclude(cumplio=False)
+    no_cumplio_mes = Turno.objects.filter(fecha__gte=ultimo_mes).exclude(cumplio=False)
 
     pacientes_pedidos_semana = Pedido.objects.filter(fecha__gte=ultima_semana)
     pacientes_pedidos_mes = Pedido.objects.filter(fecha__gte=ultimo_mes)
@@ -145,7 +145,10 @@ def eliminar_turno(request, id):
 #--------------------------------------------------------HC--------------------------------------------
 def ver_hc(request):
     if len(Hc.objects.all()) > 0:
-        data = Hc.objects.filter(medico_id = request.user.id).order_by('-fecha')
+        if request.user.rol == 'gerencia':
+            data = Hc.objects.all().order_by('-fecha')
+        else:
+            data = Hc.objects.filter(medico_id = request.user.id).order_by('-fecha')
     else:
         data = None
     return render(request, 'optometria/ver_hc.html',{

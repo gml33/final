@@ -15,7 +15,6 @@
                     <th scope="col"><center>Paciente</center></th>
                     <th scope="col"><center>Fecha</center></th>
                     <th scope="col"><center>Detalle</center></th>
-                    <th scope="col"><center>Acciones</center></th>
                 </tr>
             </thead>
             <tbody>
@@ -24,11 +23,7 @@
                     <td><center>{{hc.id}}</center></td>    
                     <td><center>{{hc.paciente}}</center></td>
                     <td><center>{{hc.fecha}}</center></td>
-                    <td><center>{{hc.detalle}}</center></td>
-                    <td><center><a href="{% url 'optometria:editar_hc' hc.id %}">Editar</a>
-                    <center><a> - </a>
-                    <center><a href="{% url 'optometria:eliminar_hc' hc.id %}">Eliminar</a></td>
-                    </center></td>                                
+                    <td><center>{{hc.detalle}}</center></td>                                
                     </tr>
             {% endfor %}
             </tbody>

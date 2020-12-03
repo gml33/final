@@ -97,6 +97,7 @@
                     <th scope="col"><center>Estado</center></th>
                     <th scope="col"><center>Detalle</center></th>
                     <th scope="col"><center>Acciones</center></th>
+                    <th scope="col"><center>Cambiar estado</center></th>
                 </tr>
             </thead>
             <tbody>
@@ -110,6 +111,23 @@
                     <a href="{% url 'optometria:editar_pedido' pedido.id%}">Editar</a>
                     <a> - </a>
                     <a href="{% url 'optometria:eliminar_pedido' pedido.id%}">Eliminar</a>
+                    </center></td>
+                    <td><center>
+                    {% if pedido.estado != 'finalizado' %}
+                    {% if pedido.estado != 'pedido' %}
+                    <a href="{% url 'optometria:estado_pedido' pedido.id%}">Pedido</a>
+                    {% else %}
+                    <a>---</a>
+                    {% endif %}
+                    <a> - </a>
+                    {% if pedido.estado != 'taller' %}
+                    <a href="{% url 'optometria:estado_taller' pedido.id%}">Taller</a>
+                    {% else %}
+                    <a>---</a>
+                    {% endif %}
+                    {% else %}
+                    <a>---</a>
+                    {% endif %}
                     </center></td>                                
                     </tr>
             {% endfor %}

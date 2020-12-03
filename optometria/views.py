@@ -400,3 +400,43 @@ def finalizar_pedido(request, id):
             'grupo': request.user.rol,
             'pedidos': pedidos,
         })
+
+def estado_pedido(request, id):
+    pedidos = Pedido.objects.all()
+    if request.user.rol == 'venta':
+        Pedido.objects.filter(id=id).update(estado='pedido')
+        messages.success(request, ('Se actualizó el estado del pedido.'))
+        return render(request, 'optometria/index.html',{
+            'grupo': request.user.rol,
+            'pedidos': pedidos,
+        })
+    else:
+        messages.success(request, ('Ocurrió un error, estamos en la sopa..... :('))
+        return render(request, 'optometria/index.html',{
+            'grupo': request.user.rol,
+            'pedidos': pedidos,
+        })
+    return render(request, 'optometria/index.html',{
+            'grupo': request.user.rol,
+            'pedidos': pedidos,
+        })
+
+def estado_taller(request, id):
+    pedidos = Pedido.objects.all()
+    if request.user.rol == 'venta':
+        Pedido.objects.filter(id=id).update(estado='taller')
+        messages.success(request, ('Se actualizó el estado del pedido.'))
+        return render(request, 'optometria/index.html',{
+            'grupo': request.user.rol,
+            'pedidos': pedidos,
+        })
+    else:
+        messages.success(request, ('Ocurrió un error, estamos en la sopa..... :('))
+        return render(request, 'optometria/index.html',{
+            'grupo': request.user.rol,
+            'pedidos': pedidos,
+        })
+    return render(request, 'optometria/index.html',{
+            'grupo': request.user.rol,
+            'pedidos': pedidos,
+        })

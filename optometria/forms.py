@@ -29,3 +29,8 @@ class LenteForm(forms.ModelForm):
     class Meta:
         model = Lente
         fields = '__all__'
+
+class VentaForm(forms.ModelForm):
+    class Meta:
+        model = Venta
+        fields = '__all__'

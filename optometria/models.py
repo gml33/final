@@ -63,3 +63,9 @@ class Lente(models.Model):
     armazon = models.BooleanField(default=False)
     precio = models.FloatField()
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name='lente_pedido')
+
+
+class Venta(models.Model):
+    vendedor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='vendedor_ventas')
+    monto = models.FloatField()
+    fecha = models.DateField(auto_now_add=False, auto_now= False, blank=False)

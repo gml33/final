@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.views.generic import TemplateView
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -15,6 +15,17 @@ User = get_user_model()
 
 
 def index(request):
+    ultima_semana = datetime.now() - timedelta(days=7)
+    ultimo_mes = datetime.now() - timedelta(days=30)
+
+    cumplio_semana = Turno.objects.filter(fecha__gte=ultima_semana).filter(cumplio=True)
+    cumplio_mes = Turno.objects.filter(fecha__gte=ultimo_mes).filter(cumplio=True)
+
+    no_cumplio_semana = Turno.objects.filter(fecha__gte=ultima_semana).exclude(cumplio=True)
+    no_cumplio_mes = Turno.objects.filter(fecha__gte=ultimo_mes).exclude(cumplio=True)
+
+    pedidos_semana = Pedido.objects.filter(fecha__gte=ultima_semana)
+    pedidos_mes = Pedido.objects.filter(fecha__gte=ultimo_mes)
     if len(Turno.objects.all()) > 0:
         turnos = Turno.objects.all().order_by('-fecha')
     else:
@@ -32,6 +43,12 @@ def index(request):
         'turnos': turnos,
         'hcs':hcs,
         'pedidos':pedidos,
+        'cumplio_semana': cumplio_semana,
+        'cumlpio_mes':cumplio_mes,
+        'no_cumplio_semana':no_cumplio_semana,
+        'no_cumplio_mes':no_cumplio_mes,
+        'pedidos_semana': pedidos_semana,
+        'pedidos_mes': pedidos_mes,
     })
 #----------------------------------------------turnos----------------------------------------------
 def ver_turnos(request):
@@ -440,3 +457,28 @@ def estado_taller(request, id):
             'grupo': request.user.rol,
             'pedidos': pedidos,
         })
+
+#----------------------------Reportes para la gerencia-----------------------------------
+def ver_reportes(request):
+    ultima_semana = datetime.now() - timedelta(days=7)
+    ultimo_mes = datetime.now() - timedelta(days=30)
+
+    cumplio_semana = Turno.objects.filter(fecha__gte=ultima_semana).filter(cumplio=True)
+    cumplio_mes = Turno.objects.filter(fecha__gte=ultimo_mes).filter(cumplio=True)
+
+    no_cumplio_semana = Turno.objects.filter(fecha__gte=ultima_semana).exclude(cumplio=True)
+    no_cumplio_mes = Turno.objects.filter(fecha__gte=ultimo_mes).exclude(cumplio=True)
+
+    pedidos_semana = Pedido.objects.filter(fecha__gte=ultima_semana)
+    pedidos_mes = Pedido.objects.filter(fecha__gte=ultimo_mes)
+
+    print(cumplio_semana)
+    return render(request, "optometria/index.html",{
+            'grupo': request.user.rol,
+            'cumplio_semana': cumplio_semana,
+            'cumlpio_mes':cumplio_mes,
+            'no_cumplio_semana':no_cumplio_semana,
+            'no_cumplio_mes':no_cumplio_mes,
+            'pedidos_semana': pedidos_semana,
+            'pedidos_mes': pedidos_mes,
+            })

@@ -178,5 +178,12 @@
     <h2><center>No hay Pedidos Registrados</center></h2>
     <br>
 {% endif %}
+{% elif grupo == "gerencia" %}
+    <h2><center>Reportes</center></h2>
+<br>
+
+{% for turno in cumplio_semana %}
+    {{turno.paciente}}--{{turno.fecha}}
+{% endfor %}
 {% endif %}
 {% endblock %}
